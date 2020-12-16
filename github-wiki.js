@@ -12,14 +12,14 @@ if (document.URL.match("=")) {
 
 //transforms double brackets links into markdown links
 function link_converter(md) {
-    return md.replace(/\[\[([\w\s\-]+)\]\]/g, function(match, p1, offset, string) {
+    return md.replace(/\[\[([\w\p{sc=Greek}\s\-]+)\]\]/g, function(match, p1, offset, string) {
         return "[" + p1 + "](/wiki/" + p1.replace(/\s/g, "_") + ".md)";
     });
 }
 
 //transforms ![image]! into markdown images
 function image_converter(md) {
-    return md.replace(/\!\[([\w\s._0-9\-]+)\]\!/g, function(match, p1, offset, string) {
+    return md.replace(/\!\[([\w\p{sc=Greek}\s._0-9\-]+)\]\!/g, function(match, p1, offset, string) {
         return "<img src='/images/" + p1 + "' class='images' </img>";
     });
 }
