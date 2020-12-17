@@ -12,14 +12,14 @@ if (document.URL.match("=")) {
 
 //transforms double brackets links into markdown links
 function link_converter(md) {
-    return md.replace(/\[\[([\w\p{sc=Greek}\s\-]+)\]\]/gu, function(match, p1, offset, string) {
+    return md.replace(/\[\[([^\[\]]+)\]\]/g, function(match, p1, offset, string) {
         return "[" + p1 + "](/wiki/" + p1.replace(/\s/g, "_") + ".md)";
     });
 }
 
 //transforms ![image]! into markdown images
 function image_converter(md) {
-    return md.replace(/\!\[([\w\p{sc=Greek}\s._0-9\-]+)\]\!/gu, function(match, p1, offset, string) {
+    return md.replace(/\!\[([^\[\]]+)\]\!/g, function(match, p1, offset, string) {
         return "<img src='/images/" + p1 + "' class='images' </img>";
     });
 }
@@ -33,7 +33,7 @@ function load_article(title) {
     $.ajax({
         url: "wiki/" + title + ".md",
         success: function(data) {
-            var lmd = link_converter("# " + title.replace(/_/g, " ") + "\n\n" + data);
+            var lmd = link_converter(data);
             lmd = image_converter(lmd);
             var html = converter.makeHtml(lmd);
             $("#article").empty();
